@@ -1,1 +1,1 @@
-Contact m eon discord: TLOD#1000
+Contact me on discord: TLOD#1000
