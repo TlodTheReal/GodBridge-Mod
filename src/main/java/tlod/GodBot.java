@@ -13,16 +13,12 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 public class GodBot {
     Minecraft mc = Minecraft.getMinecraft();
 
-    public int direction;
-
-    public int blockCount;
+    public int direction, blockCount;
 
     public void onEnable() {
         if (this.mc.inGameHasFocus) {
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), true);
             blockCount = 0;
-            direction = MathHelper.floor_double((double) ((mc.thePlayer.rotationYaw * 4F) / 360F) + 0.5D) & 3;
+            direction = MathHelper.floor_double((double) ((mc.thePlayer.rotationYaw * 8F) / 360F) + 0.5D) & 7;
             MinecraftForge.EVENT_BUS.register(this);
         } else {
             Settings.setToggled(false);
@@ -33,49 +29,99 @@ public class GodBot {
         blockCount = 0;
         KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), false);
         KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), false);
-        KeyBinding.setKeyBindState(mc.gameSettings.keyBindJump.getKeyCode(), false);
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         BlockPos playerBlock = new BlockPos(mc.thePlayer.posX, mc.thePlayer.getEntityBoundingBox().minY, mc.thePlayer.posZ);
-
         if (direction == 0) { //south
             mc.thePlayer.rotationYaw = -135F;
             mc.thePlayer.rotationPitch = 75.8F;
+            
+            KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
+            KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), true);
 
             if (mc.thePlayer.moveForward < 0) {
-                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.SOUTH);
-                blockCount++;
+                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
             }
-        } else if (direction == 1) { //west
+        } else if (direction == 1) { //south-west
+            mc.thePlayer.rotationYaw = -135F;
+            mc.thePlayer.rotationPitch = 75.8F;
+            
+            KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
+
+            if (mc.thePlayer.moveForward < 0) {
+                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
+            }
+        } else if (direction == 2) { //west
             mc.thePlayer.rotationYaw = -45F;
             mc.thePlayer.rotationPitch = 75.8F;
+            
+            KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
+            KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), true);
 
             if (mc.thePlayer.moveForward < 0) {
-                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.WEST);
-                blockCount++;
+                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
+
             }
-        } else if (direction == 2) { //north
+        } else if (direction == 3) { //north-west
+            mc.thePlayer.rotationYaw = -45F;
+            mc.thePlayer.rotationPitch = 75.8F;
+            
+            KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
+
+            if (mc.thePlayer.moveForward < 0) {
+                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
+            }
+        } else if (direction == 4) { //north
             mc.thePlayer.rotationYaw = 45F;
             mc.thePlayer.rotationPitch = 75.8F;
+            
+            KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
+            KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), true);
 
             if (mc.thePlayer.moveForward < 0) {
-                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.NORTH);
-                blockCount++;
+                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
             }
-        } else if (direction == 3) { //east
+        }  else if (direction == 5) { //north-east
+            mc.thePlayer.rotationYaw = 45F;
+            mc.thePlayer.rotationPitch = 75.8F;
+            
+            KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
+
+            if (mc.thePlayer.moveForward < 0) {
+                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
+            }
+        } else if (direction == 6) { //east
             mc.thePlayer.rotationYaw = 135F;
             mc.thePlayer.rotationPitch = 75.7F;
+            
+            KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
+            KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), true);
 
             if (mc.thePlayer.moveForward < 0) {
-                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.EAST);
-                blockCount++;
+                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
+            }
+        }  else if (direction == 7) { //south-east
+            mc.thePlayer.rotationYaw = 135F;
+            mc.thePlayer.rotationPitch = 75.8F;
+            
+            KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
+
+            if (mc.thePlayer.moveForward < 0) {
+                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
+            }
+        }
+        
+        if (blockCount == 14 && (direction == 1 || direction == 3 || direction == 5 || direction == 7)) {
+            blockCount = 0;
+            if (mc.thePlayer.onGround) {
+                mc.thePlayer.jump();
             }
         }
 
-        if (blockCount == 66) {
+        if (blockCount == 8 && (direction == 0 || direction == 2 || direction == 4 || direction == 6)) {
             blockCount = 0;
             if (mc.thePlayer.onGround) {
                 mc.thePlayer.jump();
@@ -105,6 +151,7 @@ public class GodBot {
         if (mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemBlock) {
             mc.thePlayer.swingItem();
             mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), pos, face, new Vec3(0.5D, 0.5D, 0.5D));
+            blockCount++;
         }
     }
 
@@ -136,4 +183,3 @@ public class GodBot {
         return false;
     }
 }
-

@@ -1,8 +1,8 @@
 [
 {
   "modid": "godbridgemod",
-  "name": "GodBridge Bot",
-  "description": "I made this cuz why not",
+  "name": "GodBridge Mod",
+  "description": "Now with diagonal bridging",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
