@@ -16,7 +16,7 @@ public class GodBot {
     public int direction, blockCount;
 
     public void onEnable() {
-        if (this.mc.inGameHasFocus) {
+        if (mc.inGameHasFocus) {
             blockCount = 0;
             direction = MathHelper.floor_double((double) ((mc.thePlayer.rotationYaw * 8F) / 360F) + 0.5D) & 7;
             MinecraftForge.EVENT_BUS.register(this);
@@ -34,97 +34,99 @@ public class GodBot {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
-        BlockPos playerBlock = new BlockPos(mc.thePlayer.posX, mc.thePlayer.getEntityBoundingBox().minY, mc.thePlayer.posZ);
-        if (direction == 0) { //south
-            mc.thePlayer.rotationYaw = -135F;
-            mc.thePlayer.rotationPitch = 75.8F;
-            
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), true);
+        if (mc.inGameHasFocus) {
+            BlockPos playerBlock = new BlockPos(mc.thePlayer.posX, mc.thePlayer.getEntityBoundingBox().minY, mc.thePlayer.posZ);
+            if (direction == 0) { //south
+                mc.thePlayer.rotationYaw = -135F;
+                mc.thePlayer.rotationPitch = 75.8F;
 
-            if (mc.thePlayer.moveForward < 0) {
-                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), true);
+
+                if (mc.thePlayer.moveForward < 0) {
+                    placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
+                }
+            } else if (direction == 1) { //south-west
+                mc.thePlayer.rotationYaw = -135F;
+                mc.thePlayer.rotationPitch = 75.8F;
+
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
+
+                if (mc.thePlayer.moveForward < 0) {
+                    placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
+                }
+            } else if (direction == 2) { //west
+                mc.thePlayer.rotationYaw = -45F;
+                mc.thePlayer.rotationPitch = 75.8F;
+
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), true);
+
+                if (mc.thePlayer.moveForward < 0) {
+                    placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
+
+                }
+            } else if (direction == 3) { //north-west
+                mc.thePlayer.rotationYaw = -45F;
+                mc.thePlayer.rotationPitch = 75.8F;
+
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
+
+                if (mc.thePlayer.moveForward < 0) {
+                    placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
+                }
+            } else if (direction == 4) { //north
+                mc.thePlayer.rotationYaw = 45F;
+                mc.thePlayer.rotationPitch = 75.8F;
+
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), true);
+
+                if (mc.thePlayer.moveForward < 0) {
+                    placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
+                }
+            } else if (direction == 5) { //north-east
+                mc.thePlayer.rotationYaw = 45F;
+                mc.thePlayer.rotationPitch = 75.8F;
+
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
+
+                if (mc.thePlayer.moveForward < 0) {
+                    placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
+                }
+            } else if (direction == 6) { //east
+                mc.thePlayer.rotationYaw = 135F;
+                mc.thePlayer.rotationPitch = 75.7F;
+
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), true);
+
+                if (mc.thePlayer.moveForward < 0) {
+                    placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
+                }
+            } else if (direction == 7) { //south-east
+                mc.thePlayer.rotationYaw = 135F;
+                mc.thePlayer.rotationPitch = 75.8F;
+
+                KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
+
+                if (mc.thePlayer.moveForward < 0) {
+                    placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
+                }
             }
-        } else if (direction == 1) { //south-west
-            mc.thePlayer.rotationYaw = -135F;
-            mc.thePlayer.rotationPitch = 75.8F;
-            
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
 
-            if (mc.thePlayer.moveForward < 0) {
-                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
+            if (blockCount == 14 && (direction == 1 || direction == 3 || direction == 5 || direction == 7)) {
+                blockCount = 0;
+                if (mc.thePlayer.onGround) {
+                    mc.thePlayer.jump();
+                }
             }
-        } else if (direction == 2) { //west
-            mc.thePlayer.rotationYaw = -45F;
-            mc.thePlayer.rotationPitch = 75.8F;
-            
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), true);
 
-            if (mc.thePlayer.moveForward < 0) {
-                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
-
-            }
-        } else if (direction == 3) { //north-west
-            mc.thePlayer.rotationYaw = -45F;
-            mc.thePlayer.rotationPitch = 75.8F;
-            
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
-
-            if (mc.thePlayer.moveForward < 0) {
-                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
-            }
-        } else if (direction == 4) { //north
-            mc.thePlayer.rotationYaw = 45F;
-            mc.thePlayer.rotationPitch = 75.8F;
-            
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), true);
-
-            if (mc.thePlayer.moveForward < 0) {
-                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
-            }
-        }  else if (direction == 5) { //north-east
-            mc.thePlayer.rotationYaw = 45F;
-            mc.thePlayer.rotationPitch = 75.8F;
-            
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
-
-            if (mc.thePlayer.moveForward < 0) {
-                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
-            }
-        } else if (direction == 6) { //east
-            mc.thePlayer.rotationYaw = 135F;
-            mc.thePlayer.rotationPitch = 75.7F;
-            
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindRight.getKeyCode(), true);
-
-            if (mc.thePlayer.moveForward < 0) {
-                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
-            }
-        }  else if (direction == 7) { //south-east
-            mc.thePlayer.rotationYaw = 135F;
-            mc.thePlayer.rotationPitch = 75.8F;
-            
-            KeyBinding.setKeyBindState(mc.gameSettings.keyBindBack.getKeyCode(), true);
-
-            if (mc.thePlayer.moveForward < 0) {
-                placeBlock(playerBlock.add(0, -1, 0), EnumFacing.DOWN);
-            }
-        }
-        
-        if (blockCount == 14 && (direction == 1 || direction == 3 || direction == 5 || direction == 7)) {
-            blockCount = 0;
-            if (mc.thePlayer.onGround) {
-                mc.thePlayer.jump();
-            }
-        }
-
-        if (blockCount == 8 && (direction == 0 || direction == 2 || direction == 4 || direction == 6)) {
-            blockCount = 0;
-            if (mc.thePlayer.onGround) {
-                mc.thePlayer.jump();
+            if (blockCount == 8 && (direction == 0 || direction == 2 || direction == 4 || direction == 6)) {
+                blockCount = 0;
+                if (mc.thePlayer.onGround) {
+                    mc.thePlayer.jump();
+                }
             }
         }
     }

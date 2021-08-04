@@ -29,7 +29,7 @@ public class Bind extends CommandBase {
         aliases.add("bind");
         return aliases;
     }
-
+    
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
         if (args.length == 0) {
             sender.addChatMessage((IChatComponent)new ChatComponentText("specify a key"));

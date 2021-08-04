@@ -15,7 +15,7 @@ import org.lwjgl.input.Keyboard;
 public class GodMod {
     public static final String MODID = "godbridgemod";
 
-    public static final String VERSION = "2.0";
+    public static final String VERSION = "1.0";
 
     public static GodBot godBot;
 
